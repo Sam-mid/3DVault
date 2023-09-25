@@ -15,7 +15,8 @@
     </head>
     <body>
 
-<h1>Hallo welkom op de productpagina.</h1>
+<h1>Hallo welkom op de productpagina.
+</h1>
     </body>
 
 </html>
