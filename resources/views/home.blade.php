@@ -14,10 +14,23 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('You are locked in!') }}
                 </div>
             </div>
         </div>
     </div>
+    <div class = "row">
+        @foreach($products as $product)
+            <div class = "col-4">
+                <div class = "card">
+                    <div class = "card-body">
+                        <img src = "card-image">{{$product->image}}
+                        <h5 class = "card-title">{{$product->name}}</h5>
+                        <p class = "card-text">{{$product->description}}</p>
+                    </div>
+                </div>
+            </div>
+    </div>
 </div>
+@endforeach
 @endsection
