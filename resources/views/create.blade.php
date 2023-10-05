@@ -52,7 +52,7 @@
                                 <input type="text" name="file_format" id="file_format" class="form-control" required>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Create Product</button>
+                            <button type="submit" class="btn btn-primary">Upload Product</button>
                         </form>
                     </div>
                 </div>
