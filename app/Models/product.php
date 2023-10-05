@@ -9,9 +9,21 @@ class product extends Model
 {
     use HasFactory;
 
-    /* puplic function product(){
-       return $this->belongsTo(Procuct::class);}
-    */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function create()
+    {
+        return view('products.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Handle product creation and storage here
+    }
+
 }
 
 

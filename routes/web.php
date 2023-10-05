@@ -21,6 +21,12 @@ Route::get('/products', function () {
     return view('product');
 });
 
+Route::get('/products/create', function () {
+    return view('create');
+});
+
+Route::post('/products', 'ProductController@store')->name('products.store');
+
 
 Auth::routes();
 

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('software');
             $table->string('file_format');
             $table->timestamps();
+
         });
     }
 
