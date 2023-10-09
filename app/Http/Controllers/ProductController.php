@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // Add this line
 
 class ProductController extends Controller
 {
@@ -31,7 +32,6 @@ class ProductController extends Controller
         // Validate the form data
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
-            'upload_date' => 'required|date',
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric',
@@ -39,18 +39,15 @@ class ProductController extends Controller
             'software' => 'required|string|max:255',
             'file_format' => 'required|string|max:255',
         ]);
-
         // Handle file upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images/products'); //pas dit nog aan
-        } else {
-            $imagePath = null;
-        }
+            $imagePath = $request->file('image')->store('images', 'public');
+             $imagePath = str_replace('images/', '', $imagePath);}
+
 
         // Create a new product
         $product = new Product([
             'title' => $validatedData['title'],
-            'upload_date' => $validatedData['upload_date'],
             'description' => $validatedData['description'],
             'image' => $imagePath,
             'price' => $validatedData['price'],
@@ -101,8 +98,8 @@ class ProductController extends Controller
      */
     public function destroy(product $product)
     {
-        //
+
     }
 
-
 }
+

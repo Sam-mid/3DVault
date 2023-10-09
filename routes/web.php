@@ -25,9 +25,12 @@ Route::get('/products/create', function () {
     return view('create');
 });
 
-Route::post('/products', 'ProductController@store')->name('products.store');
+Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
 
+Route::delete('/products',[\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
