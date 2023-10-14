@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Add this line
 
+
 class ProductController extends Controller
 {
     /**
@@ -29,6 +30,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         // Validate the form data
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -44,7 +46,6 @@ class ProductController extends Controller
             $imagePath = $request->file('image')->store('images', 'public');
              $imagePath = str_replace('images/', '', $imagePath);}
 
-
         // Create a new product
         $product = new Product([
             'title' => $validatedData['title'],
@@ -55,6 +56,7 @@ class ProductController extends Controller
             'software' => $validatedData['software'],
             'file_format' => $validatedData['file_format'],
         ]);
+
 
         // Get the currently authenticated user
         $user = Auth::user();
@@ -74,7 +76,7 @@ class ProductController extends Controller
      */
     public function show(product $product)
     {
-        //
+
     }
 
     /**
@@ -96,10 +98,25 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(product $product)
-    {
 
+    public function destroy(product $product){
+        $product = Product::find($product->id);
+
+// Check if the authenticated user is the owner of the product
+if (!Auth::check()) {
+    return redirect()->route('home')->with('error', 'You must be logged in to delete a product.');
+}
+
+//dd($product->title,);
+//dd(Auth::id() === $product->user_id);
+//dd(Auth::id(), $product->user_id, $product->toArray());
+
+if (Auth::id() === $product->user_id){
+        $product->delete();
+    return redirect()->route('home')->with('success', 'Product deleted successfully.');
+}else{
+    return redirect()->route('home')->with('error', 'You can only delete your own products.');
+}
     }
-
 }
 

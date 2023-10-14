@@ -22,18 +22,8 @@ class Product extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
 
-    public function create()
-    {
-        return view('products.create');
     }
-
-    public function store(Request $request)
-    {
-        // Handle product creation and storage here
-    }
-
 }
 
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,11 +26,12 @@ Route::get('/products/create', function () {
     return view('create');
 });
 
-Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
-
-Route::delete('/products',[\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
-
 Auth::routes();
+
+Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store')->middleware('auth');
+
+Route::delete('/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

@@ -28,6 +28,7 @@
                             <h5 class="card-title">{{$product->title}}</h5>
                             <p class="card-text">{{$product->description}}</p>
                             <p class="card-text"><strong>Price: €{{$product->price}}</strong></p>
+                            <p class="card-text"><strong>user_id: {{$product->user_id}}</strong></p>
                             <a href="#" class="btn btn-primary">View Product</a>
                             <!-- Add a delete button -->
                             <form method="POST" action="{{route('products.destroy', $product) }}">
