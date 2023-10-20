@@ -29,8 +29,12 @@ Route::get('/products/create', function () {
 Auth::routes();
 
 Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store')->middleware('auth');
-
 Route::delete('/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
+Route::get('/products/{product}/edit', [\App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit')->middleware('auth');
+Route::put('/products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('products.update')->middleware('auth');
+Route::get('/products/{product}', [\App\Http\Controllers\ProductController::class, 'show'])->name('products.show')->middleware('auth');
+Route::get('/search', [\App\Http\Controllers\ProductController::class,'search'])->name('products.search')->middleware('auth');
+
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

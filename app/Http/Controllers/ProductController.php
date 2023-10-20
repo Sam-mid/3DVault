@@ -25,6 +25,19 @@ class ProductController extends Controller
         //
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $products = Product::where('title', 'like', '%' . $query . '%')
+            ->orWhere('description', 'like', '%' . $query . '%')
+            ->orWhere('software', 'like', '%' . $query . '%')
+            ->get();
+
+        return view('search-results', compact('products'));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -76,7 +89,7 @@ class ProductController extends Controller
      */
     public function show(product $product)
     {
-
+        return view('show', compact('product'));
     }
 
     /**
@@ -84,15 +97,63 @@ class ProductController extends Controller
      */
     public function edit(product $product)
     {
-        //
+        if (!Auth::check()) {
+            return redirect()->route('home')->with('error', 'You must be logged in to edit a product.');
+        }
+
+        // Check if the authenticated user is the owner of the product
+        if (auth()->user()->id === $product->user_id || auth()->user()->role === 'admin') {
+            return view('edit', compact('product'));
+        } else {
+            return redirect()->route('home')->with('error', 'You can only edit your own products.');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, product $product)
+    public function update(Request $request, Product $product)
     {
-        //
+        if (!Auth::check()) {
+            return redirect()->route('home')->with('error', 'You must be logged in to update a product.');
+        }
+
+        // Check if the authenticated user is the owner of the product
+        if (auth()->user()->id === $product->user_id || auth()->user()->role === 'admin') {
+            // Validate the form data
+            $validatedData = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Allow image update, but it's not required
+                'price' => 'required|numeric',
+                'poly_count' => 'required|integer',
+                'software' => 'required|string|max:255',
+                'file_format' => 'required|string|max:255',
+            ]);
+
+            // Handle file upload
+            if ($request->hasFile('image')) {
+                // Store the new image
+                $imagePath = $request->file('image')->store('images', 'public');
+                $imagePath = str_replace('images/', '', $imagePath);
+                $product->image = $imagePath;
+            }
+
+            // Update the product
+            $product->title = $validatedData['title'];
+            $product->description = $validatedData['description'];
+            $product->price = $validatedData['price'];
+            $product->poly_count = $validatedData['poly_count'];
+            $product->software = $validatedData['software'];
+            $product->file_format = $validatedData['file_format'];
+
+            $product->save();
+
+            // Redirect to a relevant page with a success message
+            return redirect('/home')->with('success', 'Product updated successfully.');
+        } else {
+            return redirect()->route('home')->with('error', 'You can only update your own products.');
+        }
     }
 
     /**
@@ -111,7 +172,7 @@ if (!Auth::check()) {
 //dd(Auth::id() === $product->user_id);
 //dd(Auth::id(), $product->user_id, $product->toArray());
 
-if (Auth::id() === $product->user_id){
+        if (auth()->user()->id === $product->user_id || auth()->user()->role === 'admin'){
         $product->delete();
     return redirect()->route('home')->with('success', 'Product deleted successfully.');
 }else{
