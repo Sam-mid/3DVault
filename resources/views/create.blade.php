@@ -65,11 +65,6 @@
 
                             <div class="form-group">
                                 <label for="file_format">File Format</label>
-                                <input type="text" name="file_format" id="file_format" class="form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="file_format">File Format</label>
                                 <select name="file_format" id="file_format" class="form-control" @error('file_format') aria-invalid="@enderror">
                                     <option value="" disabled selected>File format</option>
                                     <option value=".fbx">.fbx</option>

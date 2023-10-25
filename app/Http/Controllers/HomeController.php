@@ -14,7 +14,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -24,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = product::all();
+        $products = Product::where('status', 1)->get();
         return view('home', compact('products'));
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Add this line
+use Illuminate\Support\Facades\Auth;
 
 
 class ProductController extends Controller
@@ -27,7 +27,6 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-
         $query = $request->input('search');
         $software = $request->input('software');
         $file_format = $request->input('$file_format');
@@ -47,7 +46,7 @@ class ProductController extends Controller
         }
 
         if (!empty($file_format)) {
-            $file_format->where('file_format', $file_format);
+            $products->where('file_format', $file_format);
         }
 
         if (!empty($priceRange)) {
@@ -59,9 +58,30 @@ class ProductController extends Controller
 
         $products = $products->get();
 
-
         return view('home', compact('products'));
 
+    }
+
+
+    public function admin()
+    {
+
+        if (auth()->user()->role === 'admin') {
+            $products = Product::all();
+            return view('admin', compact('products'));
+        } else {
+            return redirect()->route('home')->with('error', 'only admins can access this page.');
+        }
+
+
+    }
+
+    public function toggle(Product $product)
+    {
+        $product->status = ($product->status == 1) ? 0 : 1;
+        $product->save();
+
+        return back()->with('success', 'Product status toggled successfully.');
     }
 
 

@@ -40,14 +40,17 @@
                 </select>
                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
             </div>
-
-
-
         </form>
 
+        <div>
+            <a href="{{route('create')}}" class="btn btn-primary my-3">Upload Product</a>
+            @auth
+            @if (auth()->user()->role === 'admin')
+                <a href="{{ route('admin') }}" class="btn btn-primary">Admin Page</a>
+            @endif
+            @endauth
+        </div>
 
-
-        <a href="/products/create" class="btn btn-primary my-3">Upload Product</a>
 
     @if (session('error'))
             <div class="alert alert-danger">
@@ -67,7 +70,7 @@
                             <p class="card-text">{{$product->description}}</p>
                             <p class="card-text"><strong>Price: €{{$product->price}}</strong></p>
                             <div class="d-flex justify-content-center mb-3">
-                                <a href="{{ route('products.show', $product) }}" class="btn btn-primary me-2">Details</a>
+                                <a href="{{ route('products.show', $product) }}" class="btn btn-primary btn-success me-2">Details</a>
                                 @auth
                                     @if(auth()->user()->id === $product->user_id || auth()->user()->role === 'admin')
                                 <form method="POST" action="{{ route('products.destroy', $product) }}">

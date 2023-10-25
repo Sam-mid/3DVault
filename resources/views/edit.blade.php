@@ -68,7 +68,7 @@
                                     <option value=".gltf"{{ $product->file_format == '.gltf' ? 'selected' : '' }}>.gltf</option>
                                     <option value=".stl" {{ $product->file_format == '.stl' ? 'selected' : '' }}>.stl</option>
                                     <option value=".dae" {{ $product->file_format == '.dea' ? 'selected' : '' }}>.dae</option>
-                                    <option value=".blend"{{ $product->file_format == '.blend' ? 'selected' : '' }}>.blend</option>
+                                    <option value=".blend"{{$product->file_format == '.blend' ? 'selected' : '' }}>.blend</option>
                                 </select>
                             </div>
 
