@@ -50,12 +50,36 @@
 
                             <div class="form-group">
                                 <label for="software">Software</label>
-                                <input type="text" name="software" id="software" class="form-control" required>
+                                <select name="software" id="software" class="form-control" @error('software') aria-invalid="@enderror">
+                                <option value="" disabled selected>Software</option>
+                                    <option value="Blender">Blender</option>
+                                    <option value="Cinema4d">Cinema4D</option>
+                                    <option value="Maya">Maya</option>
+                                    <option value="3dsmax">3dsMax</option>
+                                    <option value="ZBrush">ZBrush</option>
+                                    <option value="Substance">Substance</option>
+                                    <option value="Unity">Unity</option>
+                                    <option value="Unreal">Unreal Engine</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="file_format">File Format</label>
                                 <input type="text" name="file_format" id="file_format" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="file_format">File Format</label>
+                                <select name="file_format" id="file_format" class="form-control" @error('file_format') aria-invalid="@enderror">
+                                    <option value="" disabled selected>File format</option>
+                                    <option value=".fbx">.fbx</option>
+                                    <option value=".obj">.obj</option>
+                                    <option value=".glb">.glb</option>
+                                    <option value=".gltf">.gltf</option>
+                                    <option value=".stl">.stl</option>
+                                    <option value=".dae">.dae</option>
+                                    <option value=".blend">.blend</option>
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Upload Product</button>

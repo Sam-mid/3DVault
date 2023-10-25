@@ -45,12 +45,31 @@
 
                             <div class="form-group">
                                 <label for="software">Software</label>
-                                <input type="text" name="software" id="software" class="form-control" required value="{{ $product->software }}">
+                                <select name="software" id="software" class="form-control" @error('software') aria-invalid="@enderror" >
+                                    <option value="" disabled selected>Software</option>
+                                    <option value="Blender" {{ $product->software == 'Blender' ? 'selected' : '' }}>Blender</option>
+                                    <option value="Cinema4d" {{ $product->software == 'Cinema4d' ? 'selected' : '' }}>Cinema4D</option>
+                                    <option value="Maya" {{ $product->software == 'Maya' ? 'selected' : '' }}>Maya</option>
+                                    <option value="3dsmax" {{ $product->software == '3dsmax' ? 'selected' : '' }}>3dsMax</option>
+                                    <option value="ZBrush" {{ $product->software == 'ZBrush' ? 'selected' : '' }}>ZBrush</option>
+                                    <option value="Substance" {{ $product->software == 'Substance' ? 'selected' : '' }}>Substance</option>
+                                    <option value="Unity" {{ $product->software == 'Unity' ? 'selected' : '' }}>Unity</option>
+                                    <option value="Unreal" {{ $product->software == 'Unreal' ? 'selected' : '' }}>Unreal Engine</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="file_format">File Format</label>
-                                <input type="text" name="file_format" id="file_format" class="form-control" required value="{{ $product->file_format }}">
+                                <select name="file_format" id="file_format" class="form-control" @error('file_format') aria-invalid="@enderror">
+                                    <option value="" disabled selected>File format</option>
+                                    <option value=".fbx" {{ $product->file_format == '.fbx' ? 'selected' : '' }}>.fbx</option>
+                                    <option value=".obj" {{ $product->file_format == '.obj' ? 'selected' : '' }}>.obj</option>
+                                    <option value=".glb" {{ $product->file_format == '.glb' ? 'selected' : '' }}>.glb</option>
+                                    <option value=".gltf"{{ $product->file_format == '.gltf' ? 'selected' : '' }}>.gltf</option>
+                                    <option value=".stl" {{ $product->file_format == '.stl' ? 'selected' : '' }}>.stl</option>
+                                    <option value=".dae" {{ $product->file_format == '.dea' ? 'selected' : '' }}>.dae</option>
+                                    <option value=".blend"{{ $product->file_format == '.blend' ? 'selected' : '' }}>.blend</option>
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Update Product</button>

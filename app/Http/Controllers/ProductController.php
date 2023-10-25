@@ -27,15 +27,45 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('query');
 
-        $products = Product::where('title', 'like', '%' . $query . '%')
-            ->orWhere('description', 'like', '%' . $query . '%')
-            ->orWhere('software', 'like', '%' . $query . '%')
-            ->get();
+        $query = $request->input('search');
+        $software = $request->input('software');
+        $file_format = $request->input('$file_format');
+        $priceRange = $request->input('price_range');
 
-        return view('search-results', compact('products'));
+        $products = Product::query();
+
+        if (!empty($query)) {
+            $products->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('title', 'like', '%' . $query . '%')
+                    ->orWhere('description', 'like', '%' . $query . '%');
+            });
+        }
+
+        if (!empty($software)) {
+            $products->where('software', $software);
+        }
+
+        if (!empty($file_format)) {
+            $file_format->where('file_format', $file_format);
+        }
+
+        if (!empty($priceRange)) {
+            $priceRangeArray = explode('-', $priceRange);
+            $minPrice = $priceRangeArray[0];
+            $maxPrice = $priceRangeArray[1];
+            $products->whereBetween('price', [$minPrice, $maxPrice]);
+        }
+
+        $products = $products->get();
+
+
+        return view('home', compact('products'));
+
     }
+
+
+
 
 
     /**
