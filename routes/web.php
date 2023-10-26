@@ -24,7 +24,7 @@ Route::get('/products', function () {
 
 
 Auth::routes();
-Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('create')->middleware('auth');
+Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create')->middleware('auth');
 Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store')->middleware('auth');
 Route::delete('/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
 Route::get('/products/{product}/edit', [\App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit')->middleware('auth');
@@ -34,8 +34,15 @@ Route::get('/search', [\App\Http\Controllers\ProductController::class,'search'])
 Route::get('/profile', [\App\Http\Controllers\ProfileController::class,'show'])->name('profile.show')->middleware('auth');
 Route::put('/profile/update', [\App\Http\Controllers\ProfileController::class,'update'])->name('profile.update')->middleware('auth');
 
+//admin functionality
 Route::get('/admin', [\App\Http\Controllers\ProductController::class,'admin'])->name('admin')->middleware('auth');
 Route::put('/products/{product}/toggle',[\App\Http\Controllers\ProductController::class,'toggle'])->name('products.toggle')->middleware('auth');
+
+//like functionality
+Route::post('/products/{product}/like', [\App\Http\Controllers\ProductController::class,'like'])->name('products.like')->middleware('auth');
+Route::delete('/products/{product}/unlike', [\App\Http\Controllers\ProductController::class,'unlike'])->name('products.unlike')->middleware('auth');
+Route::get('/liked-products', [\App\Http\Controllers\ProductController::class,'likedProducts'])->name('products.liked')->middleware('auth');
+
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

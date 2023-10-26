@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,8 +23,18 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
+
+        if ($user->role === 'user' && $user->likedProductsCount() < 5) {
+            return redirect()->route('home')->with('error', 'You need to like at least 5 products before you can create a new one.');
+        }
+
+        // Ga door met de normale create-functie om een nieuw product aan te maken
+        return view('create');
     }
+
+
+
 
     public function search(Request $request)
     {
@@ -58,7 +69,17 @@ class ProductController extends Controller
 
         $products = $products->get();
 
-        return view('home', compact('products'));
+        $hasLiked = [];
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            foreach ($products as $product) {
+                $hasLiked[$product->id] = $user->hasLiked($product);
+            }
+        }
+
+        // Laad de view en geef $products en $hasLiked door aan de view
+        return view('home', compact('products', 'hasLiked'));
 
     }
 
@@ -229,5 +250,48 @@ if (!Auth::check()) {
     return redirect()->route('home')->with('error', 'You can only delete your own products.');
 }
     }
+
+
+    public function like(Product $product)
+    {
+        $user = auth()->user();
+
+        if (!$user->likes()->where('product_id', $product->id)->exists()) {
+            $like = new Like();
+            $like->user_id = $user->id;
+            $like->product_id = $product->id;
+            $like->save();
+
+            return redirect()->route('home')->with('success', 'Product liked!');
+        }
+
+        return redirect()->route('home')->with('error', 'You already liked this product.');
+    }
+
+    public function unlike(Product $product)
+    {
+        $user = auth()->user();
+
+        $like = $user->likes()->where('product_id', $product->id)->first();
+
+        if ($like) {
+            $like->delete();
+            return redirect()->route('home')->with('success', 'Product unliked.');
+        }
+
+        return redirect()->route('home')->with('error', 'You have not liked this product.');
+    }
+
+    public function likedProducts()
+    {
+        $likedProducts = auth()->user()->likedProducts()->paginate(10);
+        return view('liked-products', compact('likedProducts'));
+    }
+
+    public function hasLiked(Product $product)
+    {
+        return $this->likes->contains('id', $product->id);
+    }
+
 }
 

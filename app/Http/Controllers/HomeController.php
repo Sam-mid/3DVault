@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,16 @@ class HomeController extends Controller
     public function index()
     {
         $products = Product::where('status', 1)->get();
-        return view('home', compact('products'));
+        $hasLiked = [];
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            foreach ($products as $product) {
+                $hasLiked[$product->id] = $user->hasLiked($product);
+            }
+        }
+
+        return view('home', compact('products', 'hasLiked'));
     }
+
 }

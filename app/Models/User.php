@@ -54,5 +54,26 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function likedProducts()
+    {
+        return $this->belongsToMany(Product::class, 'like_product');
+    }
+
+    public function hasLiked(Product $product)
+    {
+        return $this->likes->contains('id', $product->id);
+    }
+
+
 }
+
+
+
+
 
