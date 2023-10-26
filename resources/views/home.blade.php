@@ -67,7 +67,7 @@
                             <img src="{{ asset('storage/images/'.$product->image) }}" class="card-img-top" alt="Product Image">
                             @auth
                                 <div style="position: absolute; top: 10px; right: 10px; z-index: 2;">
-                                    @if($hasLiked[$product->id])
+                                    @if(auth()->user()->hasLiked($product))
                                         <form method="POST" action="{{ route('products.unlike', $product) }}">
                                             @csrf
                                             @method('DELETE')
@@ -79,10 +79,10 @@
                                         <form method="POST" action="{{ route('products.like', $product) }}">
                                             @csrf
                                             <button type="submit" class="btn btn-link">
-                                                <i class="fa fa-thumbs-up liked" style="background-color: white; border-radius: 10%; padding: 5px; border: 1px; color: black;;"></i>
+                                                <i class="fa fa-thumbs-up liked" style="background-color: white; border-radius: 10%; padding: 5px; border: 1px; color: black;"></i>
                                             </button>
                                         </form>
-                                        @endif
+                                    @endif
                                 </div>
                             @endauth
                         </div>
@@ -93,7 +93,7 @@
                             <div class="d-flex justify-content-center mb-3">
                                 <a href="{{ route('products.show', $product) }}" class="btn btn-primary btn-success me-2">Details</a>
                                 @auth
-                                    @if(auth()->user()->id === $product->user_id || auth()->user()->role === 'admin')
+                                @if(auth()->user()->id === $product->user_id || auth()->user()->role === 'admin')
                                         <form method="POST" action="{{ route('products.destroy', $product) }}">
                                             @csrf
                                             @method('DELETE')

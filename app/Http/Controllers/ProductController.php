@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role === 'user' && $user->likedProductsCount() < 5) {
+        if ($user->role === 'user' && $user->likedProducts->count() < 5) {
             return redirect()->route('home')->with('error', 'You need to like at least 5 products before you can create a new one.');
         }
 
@@ -104,10 +104,6 @@ class ProductController extends Controller
 
         return back()->with('success', 'Product status toggled successfully.');
     }
-
-
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -254,6 +250,7 @@ if (!Auth::check()) {
 
     public function like(Product $product)
     {
+
         $user = auth()->user();
 
         if (!$user->likes()->where('product_id', $product->id)->exists()) {
@@ -262,7 +259,7 @@ if (!Auth::check()) {
             $like->product_id = $product->id;
             $like->save();
 
-            return redirect()->route('home')->with('success', 'Product liked!');
+            return redirect()->back(); // Of naar de lijst met producten
         }
 
         return redirect()->route('home')->with('error', 'You already liked this product.');
@@ -281,6 +278,7 @@ if (!Auth::check()) {
 
         return redirect()->route('home')->with('error', 'You have not liked this product.');
     }
+
 
     public function likedProducts()
     {

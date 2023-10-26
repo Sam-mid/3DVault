@@ -60,14 +60,18 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
+
+
+
     public function likedProducts()
     {
-        return $this->belongsToMany(Product::class, 'like_product');
+        return $this->belongsToMany(Product::class, 'likes', 'user_id', 'product_id');
     }
+
 
     public function hasLiked(Product $product)
     {
-        return $this->likes->contains('id', $product->id);
+        return $this->likes->contains('product_id', $product->id);
     }
 
 
