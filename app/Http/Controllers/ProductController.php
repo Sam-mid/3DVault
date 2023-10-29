@@ -40,7 +40,7 @@ class ProductController extends Controller
     {
         $query = $request->input('search');
         $software = $request->input('software');
-        $file_format = $request->input('$file_format');
+        $file_format = $request->input('file_format');
         $priceRange = $request->input('price_range');
 
         $products = Product::query();
@@ -121,6 +121,7 @@ class ProductController extends Controller
             'software' => 'required|string|max:255',
             'file_format' => 'required|string|max:255',
         ]);
+
         // Handle file upload
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');

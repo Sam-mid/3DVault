@@ -72,14 +72,14 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-link">
-                                                <i class="fa fa-thumbs-up text-success" style="background-color: white; border-radius: 10%; padding: 5px; border: 1px;"></i>
+                                                <i class="fa fa-thumbs-up text-success" style="background-color: white; border-radius: 10%; padding: 5px; border: 1px; font-size: 20px;"></i>
                                             </button>
                                         </form>
                                     @else
                                         <form method="POST" action="{{ route('products.like', $product) }}">
                                             @csrf
                                             <button type="submit" class="btn btn-link">
-                                                <i class="fa fa-thumbs-up liked" style="background-color: white; border-radius: 10%; padding: 5px; border: 1px; color: black;"></i>
+                                                <i class="fa fa-thumbs-up liked" style="background-color: white; border-radius: 10%; padding: 5px; border: 1px; color: black; font-size: 20px;"></i>
                                             </button>
                                         </form>
                                     @endif

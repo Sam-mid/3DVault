@@ -25,12 +25,12 @@
 
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input type="text" name="title" id="title" class="form-control" required>
+                                <input type="text" name="title" id="title" class="form-control"  @error('title') aria-invalid="@enderror" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
+                                <textarea name="description" id="description" class="form-control" rows="4"  @error('description') aria-invalid="@enderror" required></textarea>
                             </div>
 
                             <div class="form-group">
@@ -40,17 +40,17 @@
 
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="number" name="price" id="price" class="form-control" step="0.01" required>
+                                <input type="number" name="price" id="price" class="form-control" step="0.01"  @error('price') aria-invalid="@enderror" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="poly_count">Poly Count</label>
-                                <input type="number" name="poly_count" id="poly_count" class="form-control" required>
+                                <input type="number" name="poly_count" id="poly_count" class="form-control"  @error('poly_count') aria-invalid="@enderror" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="software">Software</label>
-                                <select name="software" id="software" class="form-control" @error('software') aria-invalid="@enderror">
+                                <select name="software" id="software" class="form-control" @error('software') aria-invalid="@enderror" required>
                                 <option value="" disabled selected>Software</option>
                                     <option value="Blender">Blender</option>
                                     <option value="Cinema4d">Cinema4D</option>
@@ -65,7 +65,7 @@
 
                             <div class="form-group">
                                 <label for="file_format">File Format</label>
-                                <select name="file_format" id="file_format" class="form-control" @error('file_format') aria-invalid="@enderror">
+                                <select name="file_format" id="file_format" class="form-control" @error('file_format') aria-invalid="@enderror" required>
                                     <option value="" disabled selected>File format</option>
                                     <option value=".fbx">.fbx</option>
                                     <option value=".obj">.obj</option>

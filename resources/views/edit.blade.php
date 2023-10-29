@@ -16,7 +16,7 @@
 
                         <form method="POST" action="{{ route('products.update', $product) }}" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT') <!-- Use PUT method by sending _method field -->
+                            @method('PUT')
 
                             <div class="form-group">
                                 <label for="title">Title</label>
@@ -30,7 +30,7 @@
 
                             <div class="form-group">
                                 <label for="image">Image</label>
-                                <input type="file" name="image" id="image" class="form-control-file" accept="image/*" required>
+                                <input type="file" name="image" id="image" class="form-control-file" accept="image/*" required value="{{ $product->image }}">
                             </div>
 
                             <div class="form-group">
